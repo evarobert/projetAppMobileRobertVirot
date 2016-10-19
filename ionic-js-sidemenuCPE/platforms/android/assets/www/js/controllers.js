@@ -42,6 +42,19 @@ angular.module('starter.controllers', [])
 
  
 })
+    .controller('RechercheCtrl', function ($scope) {
+        var maListRecherche = []
+        for (i = 1; i < localStorage.length; i++)
+        {
+            maListRecherche[i-1] = JSON.parse(localStorage[i]);
+        }
+        $scope.listRecherche = maListRecherche;
+        $scope.searchTxt = '';
+        $scope.searchTag = '';
+
+
+    })
+
 
 .controller('ListesCtrl', function($scope) {
   $scope.listes = [
@@ -63,10 +76,26 @@ angular.module('starter.controllers', [])
 
 .controller('AjouterCtrl', function ($scope, $stateParams) {
     $scope.ajouterDonnees = {};
+    $scope.ajouterDonnees.Tag = [];
+
+    if ($scope.ajouterDonnees.Tag[0] != "undefined")
+    {
+        document.getElementById("ajouterDonnees.Tag[1]").style.visibility = "hidden";
+    }
+    if ($scope.ajouterDonnees.Tag[1] != "undefined") {
+        document.getElementById("ajouterDonnees.Tag[2]").style.visibility = "hidden";
+    }
+    $scope.onchange = function () {
+
+        document.getElementById("ajouterDonnees.Tag[1]").style.visibility = "visible";
+    }
+    $scope.onchange1 = function () {
+
+        document.getElementById("ajouterDonnees.Tag[2]").style.visibility = "visible";
+    }
+  
     $scope.ajouterVin = function () {
         //localStorage.clear();
-        console.log(localStorage.length)
         localStorage.setItem(localStorage.length, JSON.stringify($scope.ajouterDonnees));
-       
     };
 });

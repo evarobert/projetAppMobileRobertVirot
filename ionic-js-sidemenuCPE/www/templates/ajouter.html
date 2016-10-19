@@ -28,7 +28,15 @@
                         <option ng-value="4">4</option>
                         <option ng-value="5">5</option>
                     </select>
-
+                </label>
+                <label class="item item-input">
+                     <input ng-change="onchange()" type="text" ng-model="ajouterDonnees.Tag[0]" placeholder="Tag" />
+                </label>
+                <label class="item item-input">
+                    <input ng-change="onchange1()"class="not-displayed" id="ajouterDonnees.Tag[1]" type="text" ng-model="ajouterDonnees.Tag[1]" placeholder="Tag" />
+                </label>
+                <label class="item item-input">
+                    <input class="not-displayed" id="ajouterDonnees.Tag[2]" type="text" ng-model="ajouterDonnees.Tag[2]" placeholder="Tag" />
                 </label>
             </div>
             <button ion-button class="button button-block button-assertive" type="submit">Ajouter ce vin</button>

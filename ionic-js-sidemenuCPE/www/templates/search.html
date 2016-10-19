@@ -1,5 +1,22 @@
 <ion-view view-title="Search">
   <ion-content>
-    <h1>Search</h1>
-  </ion-content>
+    <h1>Recherche</h1>
+      <form>
+          <label for="titleInput">Recherche</label>
+          <input id="titleInput" ng-model="searchTxt">
+      </form>
+      <form>
+          <label for="titleInput">Recherche tag</label>
+          <input id="titleInput" ng-model="searchTag">
+      </form>
+      {{searchTxt}}
+      <div ng-repeat="vin in listRecherche |filter: {note: searchTxt, Tag: searchTag}  " >
+          <h2>{{vin.nom}}</h2>
+          <h2>{{vin.note}}</h2>
+          
+          <div ng-repeat="tag in vin.Tag">
+              <h4>{{tag}}</h4>
+          </div><br />
+          </div>
+</ion-content>
 </ion-view>
