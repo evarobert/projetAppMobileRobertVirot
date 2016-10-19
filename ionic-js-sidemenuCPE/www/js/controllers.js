@@ -45,10 +45,10 @@ angular.module('starter.controllers', [])
 
 .controller('ListesCtrl', function($scope) {
   $scope.listes = [
-    { title: 'Tous les vins', id: 1 },
-    { title: 'Vins blancs', id: 2 },
-    { title: 'Vins rosés', id: 3 },
-    { title: 'Vins rouges', id: 4 }
+    { title: 'Tous les vins', id: 1, couleur: "" },
+    { title: 'Vins blancs', id: 2, couleur: "Blanc" },
+    { title: 'Vins rosés', id: 3, couleur: "Rosé" },
+    { title: 'Vins rouges', id: 4, couleur: "Rouge" }
   ];
 })
 
@@ -58,15 +58,34 @@ angular.module('starter.controllers', [])
         $scope.listeVins[j] = JSON.parse(localStorage.getItem(j));
     }
 
-    console.log($scope.listeVins);
+    console.log($scope);
+    console.log($stateParams);
+    
+    $scope.location = window.location.hash;
+    $scope.couleurVin = $stateParams.couleur;
+
+ 
+    //console.log($scope.listeVins);
 })
 
 .controller('AjouterCtrl', function ($scope, $stateParams) {
-    $scope.ajouterDonnees = {};
+    $scope.ajouterModel = {};
     $scope.ajouterVin = function () {
         //localStorage.clear();
-        console.log(localStorage.length)
-        localStorage.setItem(localStorage.length, JSON.stringify($scope.ajouterDonnees));
+
+        $scope.ajouterModel.id = localStorage.length;
+        localStorage.setItem($scope.ajouterModel.id, JSON.stringify($scope.ajouterModel));
        
+        $scope.ajouterModel = {}
+        alert("Vin ajouté");
     };
+
+    // The date picker (read the docs)
+    $('.datepicker').pickadate();
+})
+
+.controller('DetailsCtrl', function ($scope, $stateParams) {
+    $scope.detailsModel = {};
+
+    $scope.detailsModel.vin = JSON.parse(localStorage.getItem($stateParams.vinId));
 });

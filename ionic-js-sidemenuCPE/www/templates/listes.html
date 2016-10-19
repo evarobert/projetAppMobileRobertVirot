@@ -1,7 +1,7 @@
 <ion-view view-title="Vins">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="liste in listes" href="#/app/listes/{{liste.id}}">
+      <ion-item ng-repeat="liste in listes" href="#/app/listes/{{liste.id}}/{{liste.couleur}}">
         {{liste.title}}
       </ion-item>
     </ion-list>
