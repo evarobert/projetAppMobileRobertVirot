@@ -55,7 +55,7 @@ angular.module('starter.controllers', [])
 .controller('ListeCtrl', function ($scope, $stateParams) {
     $scope.listeVins = [];
     for (var j = 1; j < localStorage.length; j++) {
-        $scope.listeVins[j] = localStorage.getItem(j);
+        $scope.listeVins[j] = JSON.parse(localStorage.getItem(j));
     }
 
     console.log($scope.listeVins);

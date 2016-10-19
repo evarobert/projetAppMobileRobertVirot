@@ -1,7 +1,7 @@
 <ion-view view-title="Liste des vins">
   <ion-content>
           <div ng-repeat="vin in listeVins">
-              {{vin}}
+              <ion-item href="#/app/details/{{vin.id}}">{{vin.nom}}</ion-item>
           </div>
           liste blabla
   </ion-content>
