@@ -52,7 +52,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     })
 
-     
+
          .state('app.listes', {
              url: '/listes',
              views: {
@@ -63,25 +63,27 @@ angular.module('starter', ['ionic', 'starter.controllers'])
              }
          })
 
- .state('app.single', {
-          url: '/listes/:id',
-          views: {
-              'menuContent': {
-                  templateUrl: 'templates/liste.html',
-                  controller: 'ListeCtrl'
-              }
-          }
+ .state('app.liste', {
+     url: '/listes/:listeId/:couleur',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/liste.html',
+             controller: 'ListeCtrl'
+         }
+     }
+ })
+
+    .state('app.details', {
+        url: '/listes/:listeId/:couleur/:vinId',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/details.html',
+             controller: 'DetailsCtrl'
+         }
+     }
       });
 
-  //.state('app.single', {
-  //  url: '/listes/:listeId',
-  //  views: {
-  //    'menuContent': {
-  //      templateUrl: 'templates/vins.html',
-  //      controller: 'VinsCtrl'
-  //    }
-  //  }
-  //});
+  
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/listes');
 });

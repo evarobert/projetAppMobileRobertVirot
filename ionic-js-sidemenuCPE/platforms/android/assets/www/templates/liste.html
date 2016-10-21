@@ -1,8 +1,24 @@
 <ion-view view-title="Liste des vins">
   <ion-content>
-          <div ng-repeat="vin in listeVins">
-              <ion-item href="#/app/details/{{vin.id}}">{{vin.nom}}</ion-item>
-          </div>
-          liste blabla
+          <table>
+              <tr>
+                  <td>Appellation</td>
+                  <td>Note</td>
+                  <td>Date</td>
+              </tr>
+              <tr  ng-repeat="vin in listeVins | filter: {couleur: couleurVin}">
+                  <td>
+                      <ion-item href="{{location}}/{{vin.id}}">{{vin.nom}}</ion-item>
+                  </td>
+                  <td>
+                       {{vin.note}}
+                  </td>
+                  <td>
+                      <!--{{vin.date}}-->
+                      Date
+                  </td>
+              </tr>
+             
+          </table>
   </ion-content>
 </ion-view>
