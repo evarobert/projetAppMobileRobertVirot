@@ -42,17 +42,31 @@ angular.module('starter.controllers', [])
 
  
 })
-    .controller('RechercheCtrl', function ($scope) {
-        var maListRecherche = []
+    .controller('RecherchesCtrl', function ($scope) {
+        $scope.recherches = [
+    { title: 'Recherche par Note', id: 1 },
+    { title: 'Recherche par Tag', id: 2},
+    ];
+        console.log($scope);
+        console.log(window.location.hash);
+    })
+
+    .controller('RechercheCtrl', function ($scope,$stateParams) {
+    
+        $scope.listRecherche = [];
         for (i = 1; i < localStorage.length; i++)
         {
-            maListRecherche[i-1] = JSON.parse(localStorage[i]);
-        }
-        $scope.listRecherche = maListRecherche;
+            $scope.listRecherche[i-1] = JSON.parse(localStorage.getItem(i));
+         }
         $scope.searchTxt = '';
-        $scope.searchTag = '';
-
-
+        if ($stateParams.rechercheId == 1)
+        {
+            $scope.typerecherche = "'note'";
+        }
+        if ($stateParams.rechercheId == 2)
+        { $scope.typerecherche = 'Tag' }
+        console.log($scope.typerecherche);
+        console.log($scope);
     })
 
 
@@ -82,26 +96,19 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AjouterCtrl', function ($scope, $stateParams) {
-    $scope.ajouterDonnees = {};
-    $scope.ajouterDonnees.Tag = [];
-
-    if ($scope.ajouterDonnees.Tag[0] != "undefined")
-    {
-        document.getElementById("ajouterDonnees.Tag[1]").style.visibility = "hidden";
-    }
-    if ($scope.ajouterDonnees.Tag[1] != "undefined") {
-        document.getElementById("ajouterDonnees.Tag[2]").style.visibility = "hidden";
-    }
+    $scope.ajouterModel = {};
+    $scope.ajouterModel.Tag = [];
+    document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
+    document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
     $scope.onchange = function () {
 
-        document.getElementById("ajouterDonnees.Tag[1]").style.visibility = "visible";
+        document.getElementById("ajouterModel.Tag[1]").style.visibility = "visible";
     }
     $scope.onchange1 = function () {
 
-        document.getElementById("ajouterDonnees.Tag[2]").style.visibility = "visible";
+        document.getElementById("ajouterModel.Tag[2]").style.visibility = "visible";
     }
   
-    $scope.ajouterModel = {};
     $scope.ajouterVin = function () {
         //localStorage.clear();
 
@@ -109,8 +116,9 @@ angular.module('starter.controllers', [])
         localStorage.setItem($scope.ajouterModel.id, JSON.stringify($scope.ajouterModel));
        
         $scope.ajouterModel = {}
+        document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
+        document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
         alert("Vin ajouté");
-        localStorage.setItem(localStorage.length, JSON.stringify($scope.ajouterDonnees));
     };
 
     // The date picker (read the docs)
@@ -121,4 +129,7 @@ angular.module('starter.controllers', [])
     $scope.detailsModel = {};
 
     $scope.detailsModel.vin = JSON.parse(localStorage.getItem($stateParams.vinId));
+    var myImg = new Image();
+    console.log($scope.detailsModel.vin)
+    
 });

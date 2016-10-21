@@ -30,13 +30,16 @@
                     </select>
                 </label>
                 <label class="item item-input">
-                     <input ng-change="onchange()" type="text" ng-model="ajouterDonnees.Tag[0]" placeholder="Tag" />
+                    <input type="text" ng-model="ajouterModel.photo" placeholder="photo" />
                 </label>
                 <label class="item item-input">
-                    <input ng-change="onchange1()"class="not-displayed" id="ajouterDonnees.Tag[1]" type="text" ng-model="ajouterDonnees.Tag[1]" placeholder="Tag" />
+                     <input ng-change="onchange()" type="text" ng-model="ajouterModel.Tag[0]" placeholder="Tag" />
                 </label>
                 <label class="item item-input">
-                    <input class="not-displayed" id="ajouterDonnees.Tag[2]" type="text" ng-model="ajouterDonnees.Tag[2]" placeholder="Tag" />
+                    <input ng-change="onchange1()"class="not-displayed" id="ajouterModel.Tag[1]" type="text" ng-model="ajouterModel.Tag[1]" placeholder="Tag" />
+                </label>
+                <label class="item item-input">
+                    <input class="not-displayed" id="ajouterModel.Tag[2]" type="text" ng-model="ajouterModel.Tag[2]" placeholder="Tag" />
                 </label>
                 <input type="date"/>
             </div>
