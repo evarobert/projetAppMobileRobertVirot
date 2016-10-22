@@ -43,12 +43,41 @@ angular.module('starter.controllers', [])
  
 })
     .controller('RecherchesCtrl', function ($scope) {
-        $scope.recherches = [
-    { title: 'Recherche par Note', id: 1 },
-    { title: 'Recherche par Tag', id: 2},
-    ];
-        console.log($scope);
-        console.log(window.location.hash);
+        $scope.searchTxt = {};
+    //    $scope.recherches = [
+    //{ title: 'Recherche par Note', id: 1 },
+    //{ title: 'Recherche par Tag', id: 2},
+        //    ];
+        
+        $scope.lancerecherches = function () {
+            $scope.listRecherchetest = [];
+            $scope.listRecherche = [];
+
+            if ($scope.searchTxt.filtre == 'note') {
+                j = 0;
+                for (i = 1; i < localStorage.length; i++) {
+                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
+                    if ($scope.listRecherchetest[i - 1].note == $scope.searchTxt.txt)
+                    {
+                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                        j++;
+                    }
+                }
+            }
+            if ($scope.searchTxt.filtre == 'Tag') {
+                j = 0;
+                for (i = 1; i < localStorage.length; i++) {
+                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
+                        if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
+                           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                         j++;
+                       
+                    }
+                }
+            }
+            console.log($scope.searchTxt);
+            console.log($scope.listRecherche);
+        };
     })
 
     .controller('RechercheCtrl', function ($scope,$stateParams) {
@@ -58,15 +87,16 @@ angular.module('starter.controllers', [])
         {
             $scope.listRecherche[i-1] = JSON.parse(localStorage.getItem(i));
          }
-        $scope.searchTxt = '';
-        if ($stateParams.rechercheId == 1)
-        {
-            $scope.typerecherche = "'note'";
-        }
-        if ($stateParams.rechercheId == 2)
-        { $scope.typerecherche = 'Tag' }
-        console.log($scope.typerecherche);
-        console.log($scope);
+        
+            
+            if ($stateParams.rechercheId == 1) {
+                $scope.typerecherche = "'note'";
+            }
+            if ($stateParams.rechercheId == 2)
+            { $scope.typerecherche = 'Tag' }
+            console.log($scope.typerecherche);
+            console.log($scope);
+        
     })
 
 

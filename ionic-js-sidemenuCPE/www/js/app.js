@@ -45,7 +45,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
 
          .state('app.recherche', {
-             url: '/recherches/:rechercheId',
+             url: '/recherche',
              views: {
                  'menuContent': {
                      templateUrl: 'templates/recherche.html',
