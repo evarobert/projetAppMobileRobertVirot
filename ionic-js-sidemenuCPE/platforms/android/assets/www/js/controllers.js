@@ -68,6 +68,7 @@ angular.module('starter.controllers', [])
                 j = 0;
                 for (i = 1; i < localStorage.length; i++) {
                     $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
+                    console.log($scope.listRecherchetest[i - 1]);
                         if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
                            $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
                          j++;
