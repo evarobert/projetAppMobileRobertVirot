@@ -2,51 +2,51 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
+    // Form data for the login modal
+    $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+    // Triggered in the login modal to close it
+    $scope.closeLogin = function() {
+        $scope.modal.hide();
+    };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+    // Open the login modal
+    $scope.login = function() {
+        $scope.modal.show();
+    };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+    // Perform the login action when the user submits the login form
+    $scope.doLogin = function() {
+        console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+        // Simulate a login delay. Remove this and replace with your login
+        // code if using a login system
+        $timeout(function() {
+            $scope.closeLogin();
+        }, 1000);
+    };
 
  
 })
     .controller('RecherchesCtrl', function ($scope) {
         $scope.searchTxt = {};
-    //    $scope.recherches = [
-    //{ title: 'Recherche par Note', id: 1 },
-    //{ title: 'Recherche par Tag', id: 2},
+        //    $scope.recherches = [
+        //{ title: 'Recherche par Note', id: 1 },
+        //{ title: 'Recherche par Tag', id: 2},
         //    ];
         
         $scope.lancerecherches = function () {
@@ -66,19 +66,32 @@ angular.module('starter.controllers', [])
             }
             if ($scope.searchTxt.filtre == 'Tag') {
                 j = 0;
+                //localStorage.removeItem(0);
+                //console.log(localStorage);
+                //$scope.listRecherchetest = JSON.parse(localStorage);
+                //console.log($scope.listRecherchetest);
+                //for ( i=0; i< $scope.listRecherchetest ;i++ )
+                //{
+                //    if ($scope.listRecherchetest[i].Tag.indexOf($scope.searchTxt.txt) != -1)
+                //    {
+                //        $scope.listRecherche[j] = $scope.listRecherchetest[i];
+                //        j++;
+                //    }
+                //};
                 for (i = 1; i < localStorage.length; i++) {
                     $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
                     console.log($scope.listRecherchetest[i - 1]);
-                        if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
+                    console.log(localStorage);
+
+                    if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
                            $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
                          j++;
-                       
                     }
                 }
             }
-            console.log($scope.searchTxt);
             console.log($scope.listRecherche);
-        };
+        
+        }
     })
 
     .controller('RechercheCtrl', function ($scope,$stateParams) {
@@ -155,6 +168,31 @@ angular.module('starter.controllers', [])
     // The date picker (read the docs)
     $('.datepicker').pickadate();
 })
+
+.controller('CarteCtrl', function ($scope) {
+    Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', {
+        callback: function () {
+            23
+            var map = new Microsoft.Maps.Map($('#divMap').get(0),
+            {
+                credentials: "AuF3vNkJTNVL34sneujm2cboxXkhMWPSARui7drvweOJwLv8yiUyAjjBzJQ5xrf",
+                mapTypeId: Microsoft.Maps.MapTypeId.road,
+                enableClickableLogo: false,
+                enableSearchLogo: false,
+                center: new Microsoft.Maps.Location(48.84, 2.36),
+                zoom: 13,
+                theme: new Microsoft.Maps.Themes.BingTheme()
+            });
+            var mapCenter = map.getCenter();
+            var epingle = new Microsoft.Maps.Pushpin(
+            mapCenter,
+            { width: 50, height: 50 }
+            );
+            map.entities.push(epingle);
+        }
+    });
+})
+
 
 .controller('DetailsCtrl', function ($scope, $stateParams) {
     $scope.detailsModel = {};

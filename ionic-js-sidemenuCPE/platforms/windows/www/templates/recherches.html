@@ -1,0 +1,35 @@
+﻿
+<ion-view view-title="recherche">
+    <ion-content>
+        <ion-list>
+            <ion-item>
+                <br />
+
+                <label for="titleInput">Recherche</label>
+                <form ng-submit="lancerecherches()">
+                    <label class="item item-input item-select">
+                        Filtre
+                        <select ng-model="searchTxt.filtre">
+                            <option>note</option>
+                            <option>Tag</option>
+                        </select>
+                    </label>
+                    <input id="titleInput" ng-model="searchTxt.txt">
+                    <button ion-button class="button button-block button-assertive" type="submit">Lancer la recherche</button>
+                </form>
+            </ion-item>
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <div ng-repeat="vin in listRecherche ">
+                        <h2>{{vin.nom}}</h2>
+                        <h2>{{vin.note}}</h2>
+                        <div ng-repeat="tag in vin.Tag">
+                            <h4>{{tag}}</h4>
+                        </div><br />
+                    </div>
+                </div>
+            </div>
+
+        </ion-list>
+    </ion-content>
+</ion-view>
