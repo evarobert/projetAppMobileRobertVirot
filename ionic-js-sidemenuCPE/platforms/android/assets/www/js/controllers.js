@@ -66,15 +66,25 @@ angular.module('starter.controllers', [])
             }
             if ($scope.searchTxt.filtre == 'Tag') {
                 j = 0;
-                for (i = 1; i < localStorage.length; i++) {
-                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-                    console.log($scope.listRecherchetest[i - 1]);
-                        if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
-                           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                         j++;
-                       
+                $scope.listRecherchetest = JSON.parse(localStorage);
+                for ( i=1; i< $scope.listRecherchetest ;i++ )
+                    if ($scope.listRecherchetest[i].Tag.indexOf($scope.searchTxt.txt) != -1)
+                    {
+                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                        j++;
                     }
-                }
+                });
+                //for (i = localStorage.length -1; i > 0; i--) {
+                //    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
+                //    console.log($scope.listRecherchetest[i - 1]);
+                //    console.log(localStorage);
+                //    if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
+                //        console.log("dans le if" + $scope.listRecherchetest[i - 1]);
+                //           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                //         j++;
+                       
+                //    }
+                //}
             }
             console.log($scope.searchTxt);
             console.log($scope.listRecherche);

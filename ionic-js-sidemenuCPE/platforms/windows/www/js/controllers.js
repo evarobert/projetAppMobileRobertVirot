@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+ï»¿angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -66,25 +66,15 @@ angular.module('starter.controllers', [])
             }
             if ($scope.searchTxt.filtre == 'Tag') {
                 j = 0;
-                $scope.listRecherchetest = JSON.parse(localStorage);
-                for ( i=1; i< $scope.listRecherchetest ;i++ )
-                    if ($scope.listRecherchetest[i].Tag.indexOf($scope.searchTxt.txt) != -1)
-                    {
-                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                        j++;
-                    }
-                });
-                //for (i = localStorage.length -1; i > 0; i--) {
-                //    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-                //    console.log($scope.listRecherchetest[i - 1]);
-                //    console.log(localStorage);
-                //    if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
-                //        console.log("dans le if" + $scope.listRecherchetest[i - 1]);
-                //           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                //         j++;
+                for (i = 1; i < localStorage.length; i++) {
+                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
+                    console.log($scope.listRecherchetest[i - 1]);
+                        if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
+                           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                         j++;
                        
-                //    }
-                //}
+                    }
+                }
             }
             console.log($scope.searchTxt);
             console.log($scope.listRecherche);
@@ -115,7 +105,7 @@ angular.module('starter.controllers', [])
   $scope.listes = [
     { title: 'Tous les vins', id: 1, couleur: "" },
     { title: 'Vins blancs', id: 2, couleur: "Blanc" },
-    { title: 'Vins rosés', id: 3, couleur: "Rosé" },
+    { title: 'Vins rosï¿½s', id: 3, couleur: "Rosï¿½" },
     { title: 'Vins rouges', id: 4, couleur: "Rouge" }
   ];
 })
@@ -159,7 +149,7 @@ angular.module('starter.controllers', [])
         $scope.ajouterModel = {}
         document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
         document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
-        alert("Vin ajouté");
+        alert("Vin ajoutï¿½");
     };
 
     // The date picker (read the docs)

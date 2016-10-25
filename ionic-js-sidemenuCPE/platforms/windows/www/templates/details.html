@@ -1,0 +1,15 @@
+﻿<ion-view view-title="Détails du vin">
+    <ion-content>
+      <div ng-model="detailsModel.vin">
+          {{detailsModel.vin.nom}}
+          {{detailsModel.vin.appellation}}
+          {{detailsModel.vin.millesime}}
+          {{detailsModel.vin.couleur}}
+          {{detailsModel.vin.viticulteur}}
+          {{detailsModel.vin.note}}
+          <p>
+              <img src={{detailsModel.vin.photo}} style="width:250px; height:250px;"  alt="Photo" />
+          </p>
+      </div>
+    </ion-content>
+</ion-view>
