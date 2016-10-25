@@ -170,27 +170,60 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CarteCtrl', function ($scope) {
-    Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', {
-        callback: function () {
-            23
-            var map = new Microsoft.Maps.Map($('#divMap').get(0),
-            {
-                credentials: "AuF3vNkJTNVL34sneujm2cboxXkhMWPSARui7drvweOJwLv8yiUyAjjBzJQ5xrf",
-                mapTypeId: Microsoft.Maps.MapTypeId.road,
-                enableClickableLogo: false,
-                enableSearchLogo: false,
-                center: new Microsoft.Maps.Location(48.84, 2.36),
-                zoom: 13,
-                theme: new Microsoft.Maps.Themes.BingTheme()
-            });
-            var mapCenter = map.getCenter();
-            var epingle = new Microsoft.Maps.Pushpin(
-            mapCenter,
-            { width: 50, height: 50 }
-            );
-            map.entities.push(epingle);
-        }
-    });
+    function success(pos) {
+        var crd = pos.coords;
+
+        console.log('Your current position is:');
+        console.log('Latitude : ' + crd.latitude);
+        console.log('Longitude: ' + crd.longitude);
+        console.log('More or less ' + crd.accuracy + ' meters.');
+        Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', {
+
+            callback: function () {
+                23
+                var map = new Microsoft.Maps.Map($('#divMap').get(0),
+                {
+                    credentials: "x1YM9wPP7jP8Zubo84cF~iNVEyFBL3uIbHd-lBU8vwg~Ap4rSG2x_BZiNfSWXEHNjgUL8-HzUVYeEvbb8dEVDmwEiazoBqjulsiYcNp_VFdW",
+                    mapTypeId: Microsoft.Maps.MapTypeId.road,
+                    enableClickableLogo: false,
+                    enableSearchLogo: false,
+                    center: new Microsoft.Maps.Location(crd.latitude, crd.longitude),
+                    zoom: 13,
+                    theme: new Microsoft.Maps.Themes.BingTheme()
+                });
+                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                    var searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                    var reverseGeocodeRequestOptions = {
+                        location: new Microsoft.Maps.Location(crd.latitude, crd.longitude),
+                        callback: function (answer, userData) {
+                            map.setView({ bounds: answer.bestView });
+                            map.entities.push(new Microsoft.Maps.Pushpin(reverseGeocodeRequestOptions.location));
+                            document.getElementById('printoutPanel').innerHTML =
+                                answer.address.formattedAddress;
+                        }
+                    };
+                
+                    searchManager.reverseGeocode(reverseGeocodeRequestOptions);
+                    console.log(searchManager.reverseGeocode(reverseGeocodeRequestOptions));
+                });
+                var mapCenter = map.getCenter();
+                var epingle = new Microsoft.Maps.Pushpin(
+                mapCenter,
+                { width: 50, height: 50 }
+                );
+                map.entities.push(epingle);
+                }
+                
+        });
+    };
+
+    function error(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    };
+
+    navigator.geolocation.watchPosition(success, error);
+
+
 })
 
 
