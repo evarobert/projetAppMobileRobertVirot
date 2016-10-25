@@ -84,6 +84,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
      }
  })
 
+.state('app.carte', {
+            url: '/carte',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/carte.html',
+                    controller: 'CarteCtrl'
+                }
+            }
+        })
+
     .state('app.details', {
         url: '/listes/:listeId/:couleur/:vinId',
      views: {

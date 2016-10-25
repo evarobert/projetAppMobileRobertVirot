@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0 'unsafe-eval'; style-src 'self''unsafe-inline'; media-src *">-->
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -15,7 +16,10 @@
     <!--For users deploying their apps to Windows 8.1 or Android Gingerbread, platformOverrided.js
     will inject platform-specific code from the /merges folder -->
     <script src="js/platformOverrides.js"></script>
-
+    <!-- MAP -->
+    <script type="text/javascript"
+            src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0">
+    </script>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
