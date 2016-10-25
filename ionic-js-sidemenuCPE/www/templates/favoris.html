@@ -1,0 +1,20 @@
+﻿<ion-view view-title="Vins">
+    <ion-content>
+        <div>
+            <h2>Favori</h2>
+            <label class="item item-input">
+                <input type="number" ng-model="vinId" placeholder="Id vin" />
+            </label>
+        </div>
+
+        <div>
+            <button ng-click="saveFavori(vinId)">Save</button>
+            <button ng-click="load()">Load</button>
+        </div>
+        <p>{{status}}</p>
+        <!--<div ng-repeat="favori in favoris">
+            {{favori}}
+        </div>-->
+
+    </ion-content>
+</ion-view>

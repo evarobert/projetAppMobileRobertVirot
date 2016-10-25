@@ -4,25 +4,31 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+var db;
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-      if (cordova.platformId === "ios" && window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
+.run(function ($ionicPlatform) {
+    $ionicPlatform.ready(function () {
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        db = $cordovaSQLite.openDB({ name: "winelove.db", location: 'default' });
+        $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, utilisateurId INTEGER, vinId INTEGER');
+
+
+        if (cordova.platformId === "ios" && window.cordova && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.disableScroll(true);
+
+        }
+        if (window.StatusBar) {
+            // org.apache.cordova.statusbar required
+            StatusBar.styleDefault();
+        }
+    });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
 
       .state('app', {
@@ -32,11 +38,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           controller: 'AppCtrl'
       })
 
-    .state('app.search', {
-        url: '/search',
+    .state('app.recherche', {
+        url: '/recherche',
         views: {
             'menuContent': {
-                templateUrl: 'templates/search.html'
+                templateUrl: 'templates/recherche.html',
+                controller: 'RechercheCtrl'
             }
         }
     })
@@ -74,15 +81,25 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
     .state('app.details', {
         url: '/listes/:listeId/:couleur/:vinId',
-     views: {
-         'menuContent': {
-             templateUrl: 'templates/details.html',
-             controller: 'DetailsCtrl'
-         }
-     }
-      });
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/details.html',
+                controller: 'DetailsCtrl'
+            }
+        }
+    })
 
-  
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/listes');
+    .state('app.favoris', {
+        url: '/favoris',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/favoris.html',
+                controller: 'FavorisCtrl'
+            }
+        }
+    })
+
+
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/app/listes');
 });
