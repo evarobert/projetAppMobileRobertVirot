@@ -120,9 +120,9 @@
     $scope.detailsModel.vin = JSON.parse(localStorage.getItem($stateParams.vinId));
 })
 
-.controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaDevice, $cordovaSQLite) {
+.controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaSQLite) {
 
-     //$ionicPlatform.ready(function(){
+     $ionicPlatform.ready(function(){
         $cordovaSQLite.execute(db, 'SELECT * FROM Favoris')
           .then(
               function(res) {
@@ -154,23 +154,19 @@
 
         $scope.favoris = [];
 
-        $scope.addTodo = function (id, vinId, utilisateurId) {
-           
-            
+        $scope.addTodo = function (vinId, utilisateurId) {
                 console.log("add");
                 //$scope.favoris.push($scope.vinId);
-                $scope.errortext = "";
+                //$scope.errortext = "";
 
-                $scope.id = id;
-                $scope.vinId = vinId;
-                $scope.utilisateurId = utilisateurId;
-                var query = "INSERT INTO Favoris (id, vinId, utilisateurId) VALUES (?,?,?)";
-                $cordovaSQLite.execute(db, query, [$scope.id, $scope.vinId, $scope.utilisateurId]).then(function (res) {
-                    console.log("inserted");
-                }, function (err) {
-                    console.error(err);
-                });
-
+                //$scope.vinId = vinId;
+                //$scope.utilisateurId = utilisateurId;
+                //var query = "INSERT INTO Favoris (vinId, utilisateurId) VALUES (?,?)";
+                //$cordovaSQLite.execute(db, query, [$scope.vinId, $scope.utilisateurId]).then(function (res) {
+                //    console.log("inserted");
+                //}, function (err) {
+                //    console.error(err);
+                //});
 
         } //end of addTodo function
 
@@ -189,5 +185,5 @@
 
         };
     });
-//}
-//)
+}
+)

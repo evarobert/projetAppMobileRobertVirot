@@ -120,9 +120,9 @@ angular.module('starter.controllers', [])
     $scope.detailsModel.vin = JSON.parse(localStorage.getItem($stateParams.vinId));
 })
 
-.controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaDevice, $cordovaSQLite) {
+.controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaSQLite) {
 
-     //$ionicPlatform.ready(function(){
+     $ionicPlatform.ready(function(){
         $cordovaSQLite.execute(db, 'SELECT * FROM Favoris')
           .then(
               function(res) {
@@ -137,14 +137,6 @@ angular.module('starter.controllers', [])
                   console.log("Error on SELECT-> " + error.message);
               });
 
-        //var query = "INSERT INTO Favoris (vinId, test) VALUES (?,?)";
-        //$cordovaSQLite.execute(db, query, [1, "test"]).then(function (res) {
-        //    console.log("inserted");
-        //}, function (err) {
-        //    console.error(err);
-        //});
-
-
         //var query = "DROP TABLE Favoris";
         //$cordovaSQLite.execute(db, query, []).then(function (res) {
         //    console.log("deleted");
@@ -154,40 +146,33 @@ angular.module('starter.controllers', [])
 
         $scope.favoris = [];
 
-        $scope.addTodo = function (id, vinId, utilisateurId) {
-           
-            
+        $scope.addTodo = function (vinId, utilisateurId) {
                 console.log("add");
-                //$scope.favoris.push($scope.vinId);
-                $scope.errortext = "";
 
-                $scope.id = id;
                 $scope.vinId = vinId;
                 $scope.utilisateurId = utilisateurId;
-                var query = "INSERT INTO Favoris (id, vinId, utilisateurId) VALUES (?,?,?)";
-                $cordovaSQLite.execute(db, query, [$scope.id, $scope.vinId, $scope.utilisateurId]).then(function (res) {
+                var query = "INSERT INTO Favoris (vinId, utilisateurId) VALUES (?,?)";
+                $cordovaSQLite.execute(db, query, [$scope.vinId, $scope.utilisateurId]).then(function (res) {
                     console.log("inserted");
                 }, function (err) {
                     console.error(err);
                 });
 
+        } 
 
-        } //end of addTodo function
+        //$scope.removeItem = function (x) {
 
+        //    var query = "delete from Favoris where id='" + $scope.favoris[x] + "'";
+        //    $cordovaSQLite.execute(db, query, []).then(function (res) {
 
-        $scope.removeItem = function (x) {
+        //    }, function (err) {
+        //        alert("error deleting row=" + err);
+        //    });
 
-            var query = "delete from Favoris where id='" + $scope.favoris[x] + "'";
-            $cordovaSQLite.execute(db, query, []).then(function (res) {
+        //    $scope.todos.splice(x, 1);
+        //    $scope.errortext = "";
 
-            }, function (err) {
-                alert("error deleting row=" + err);
-            });
-
-            $scope.todos.splice(x, 1);
-            $scope.errortext = "";
-
-        };
+        //};
     });
-//}
-//)
+}
+)

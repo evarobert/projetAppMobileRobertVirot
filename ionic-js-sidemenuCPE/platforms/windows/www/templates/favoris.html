@@ -1,19 +1,16 @@
 ﻿<ion-view view-title="Vins">
     <ion-content>
-        <div>
+        <form>
             <h2>Favori</h2>
             <label class="item item-input">
-                <input type="number" ng-model="id" placeholder="Id" />
                 <input type="number" ng-model="vinId" placeholder="Id vin" />
                 <input type="number" ng-model="utilisateurId" placeholder="Id user" />
             </label>
-        </div>
 
-        <div>
-            <!--<button ng-click="save(vinId)">Save</button>
-            <button ng-click="load()">Load</button>-->
-            <button ng-click="addTodo(id, vinId, utilisateurId)">Add</button>
-        </div>
+            <button type="button" ng-click="addTodo(vinId, utilisateurId)" ion-button class="button button-block button-assertive">Ajouter</button>
+        </form>
+
+       
         <p>{{status}}</p>
         <div ng-repeat="favori in favoris">
             {{favori}}
