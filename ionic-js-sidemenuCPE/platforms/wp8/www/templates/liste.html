@@ -1,0 +1,47 @@
+<ion-view view-title="Liste des vins">
+    <ion-content>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    <a href="" ng-click="sortType = 'appellation'; sortReverse = !sortReverse">
+                        Appellation
+                        <span ng-show="sortType == 'appellation' && !sortReverse" class="caret"></span>
+                        <span ng-show="sortType == 'appellation' && sortReverse" class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <a href="" ng-click="sortType = 'note'; sortReverse = !sortReverse">
+                        Note
+                        <span ng-show="sortType == 'note' && !sortReverse" class="caret"></span>
+                        <span ng-show="sortType == 'note' && sortReverse" class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <a href="" ng-click="sortType = 'date'; sortReverse = !sortReverse">
+                        Date
+                        <span ng-show="sortType == 'date' && !sortReverse" class="caret"></span>
+                        <span ng-show="sortType == 'date' && sortReverse" class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-repeat="vin in listeVins | filter: {couleur: couleurVin} | orderBy:sortType:sortReverse">
+                <td>
+                    <ion-item href="{{location}}/{{vin.id}}">{{vin.nom}}</ion-item>
+                </td>
+                <td>
+                    {{vin.note}}
+                </td>
+                <td>
+                    {{ vin.date | date:'dd/MM/yyyy'}}
+                </td>
+            </tr>
+
+        </table>
+    </ion-content>
+</ion-view>

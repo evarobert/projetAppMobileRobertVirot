@@ -32,13 +32,13 @@
             </tr>
             <tr ng-repeat="vin in listeVins | filter: {couleur: couleurVin} | orderBy:sortType:sortReverse">
                 <td>
-                    <ion-item href="{{location}}/{{vin.id}}">{{vin.nom}}</ion-item>
+                    <ion-item href="{{location}}/{{vin.id}}">{{vin.appellation}}</ion-item>
                 </td>
                 <td>
                     {{vin.note}}
                 </td>
                 <td>
-                    {{ vin.date | date:'dd/MM/yyyy'}}
+                    {{ vin.date | date }}
                 </td>
             </tr>
 
