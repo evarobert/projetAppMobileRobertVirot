@@ -3,19 +3,21 @@
         <div>
             <h2>Favori</h2>
             <label class="item item-input">
-                <input type="number" ng-model="id" placeholder="Id vin" />
+                <input type="number" ng-model="id" placeholder="Id" />
+                <input type="number" ng-model="vinId" placeholder="Id vin" />
+                <input type="number" ng-model="utilisateurId" placeholder="Id user" />
             </label>
         </div>
 
         <div>
-            <button ng-click="save(vinId)">Save</button>
-            <button ng-click="load()">Load</button>
-            <button ng-click="addTodo(id, 1, 1)">Load</button>
+            <!--<button ng-click="save(vinId)">Save</button>
+            <button ng-click="load()">Load</button>-->
+            <button ng-click="addTodo(id, vinId, utilisateurId)">Add</button>
         </div>
         <p>{{status}}</p>
-        <!--<div ng-repeat="favori in favoris">
+        <div ng-repeat="favori in favoris">
             {{favori}}
-        </div>-->
+        </div>
 
     </ion-content>
 </ion-view>

@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             alert(error);
         }
         try {
-            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY, vinId INTEGER, utilisateurId INTEGER)');
         }
         catch (error) {
             alert("Error creating table->" + error);

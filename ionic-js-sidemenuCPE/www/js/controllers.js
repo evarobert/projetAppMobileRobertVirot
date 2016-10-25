@@ -122,54 +122,54 @@ angular.module('starter.controllers', [])
 
 .controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaDevice, $cordovaSQLite) {
 
-     $ionicPlatform.ready(function(){
+     //$ionicPlatform.ready(function(){
         $cordovaSQLite.execute(db, 'SELECT * FROM Favoris')
           .then(
               function(res) {
                   if (res.rows.length > 0) {
-                     
                       for (var i = 0; i < res.rows.length; i++) {
                           $scope.favoris.push(res.rows.item(i));
+                          console.log("id = " + res.rows.item(i).id + " vinId = " + res.rows.item(i).vinId + " utilisateurId = " + res.rows.item(i).utilisateurId);
                       }
-                      
-                      console.log("Table Favoris");
-                      for (var j = 0; j < res.rows.length; j++) {
-                          console.log($scope.favoris[j]);
-                      }
-                      console.log("Fin Table Favoris");
                   }
               },
               function(error) {
                   console.log("Error on SELECT-> " + error.message);
               });
 
+        //var query = "INSERT INTO Favoris (vinId, test) VALUES (?,?)";
+        //$cordovaSQLite.execute(db, query, [1, "test"]).then(function (res) {
+        //    console.log("inserted");
+        //}, function (err) {
+        //    console.error(err);
+        //});
+
+
+        //var query = "DROP TABLE Favoris";
+        //$cordovaSQLite.execute(db, query, []).then(function (res) {
+        //    console.log("deleted");
+        //}, function (err) {
+        //    console.error(err);
+        //});
+
         $scope.favoris = [];
 
-        
-
-        //$scope.vinId = 0;
         $scope.addTodo = function (id, vinId, utilisateurId) {
+           
+            
+                console.log("add");
                 //$scope.favoris.push($scope.vinId);
                 $scope.errortext = "";
+
                 $scope.id = id;
                 $scope.vinId = vinId;
                 $scope.utilisateurId = utilisateurId;
-
-                var query = "INSERT INTO Favoris (id, vinId, utilisateurId) VALUES (?)";
-                var data = [];
-                res.forEach(function () {
-                    rowArgs.push("(?, ?, ?)");
-                    data.push($scope.id);
-                    data.push($scope.vinId);
-                    data.push($scope.utilisateurId);
-                });
-                query += rowArgs.join(", ");
-                $cordovaSQLite.execute(db, query, [data]).then(function (res) {
+                var query = "INSERT INTO Favoris (id, vinId, utilisateurId) VALUES (?,?,?)";
+                $cordovaSQLite.execute(db, query, [$scope.id, $scope.vinId, $scope.utilisateurId]).then(function (res) {
                     console.log("inserted");
                 }, function (err) {
-                    console.log("could not inserted");
+                    console.error(err);
                 });
-
 
 
         } //end of addTodo function
@@ -189,4 +189,5 @@ angular.module('starter.controllers', [])
 
         };
     });
-})
+//}
+//)
