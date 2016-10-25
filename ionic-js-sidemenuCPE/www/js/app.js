@@ -8,13 +8,11 @@ var db;
 
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $cordovaSQLite) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
-        db = $cordovaSQLite.openDB({ name: "winelove.db", location: 'default' });
-        $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, utilisateurId INTEGER, vinId INTEGER');
-
+       
 
         if (cordova.platformId === "ios" && window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -24,6 +22,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
+        }
+        try {
+            db = $cordovaSQLite.openDB({ name: "winelove.db", location: 'default' });
+        } catch (error) {
+            alert(error);
+        }
+        try {
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
+        }
+        catch (error) {
+            alert("Error creating table->" + error);
         }
     });
 })

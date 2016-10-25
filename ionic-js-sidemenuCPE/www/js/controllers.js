@@ -120,34 +120,73 @@ angular.module('starter.controllers', [])
     $scope.detailsModel.vin = JSON.parse(localStorage.getItem($stateParams.vinId));
 })
 
-.controller('FavorisCtrl', function ($scope) {
+.controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaDevice, $cordovaSQLite) {
 
-    console.log("on est là");
-    $scope.save = function (favori) {
-        console.log("save");
-        //$cordovaSQLite.execute(db, 'INSERT INTO Favoris (favori) VALUES (?)', [favori])
-        //    .then(function (result) {
-        //        $scope.status = "Saved";
-        //    }, function (error) {
-        //        $scope.status = "Error" + error.message;
-        //    });
-    };
+     $ionicPlatform.ready(function(){
+        $cordovaSQLite.execute(db, 'SELECT * FROM Favoris')
+          .then(
+              function(res) {
+                  if (res.rows.length > 0) {
+                     
+                      for (var i = 0; i < res.rows.length; i++) {
+                          $scope.favoris.push(res.rows.item(i));
+                      }
+                      
+                      console.log("Table Favoris");
+                      for (var j = 0; j < res.rows.length; j++) {
+                          console.log($scope.favoris[j]);
+                      }
+                      console.log("Fin Table Favoris");
+                  }
+              },
+              function(error) {
+                  console.log("Error on SELECT-> " + error.message);
+              });
 
-    $scope.favoris = [];
+        $scope.favoris = [];
 
-    $scope.load = function () {
-        console.log("load");
-        //$cordovaSQLite.execute(db, "SELECT * FROM Favoris ORDER BY id DESC")
-        //.then(
-        //function (result) {
-        //    if (result.rows.length > 0) {
-        //        for (i = 0, max = results.rows.length; i < max; i++) {
-        //            $scope.favoris.push(result.rows.item(i));
-        //        }
-        //    }
-        //},
-        //function (error) {
-        //    $scope.status = "Error load " + error.message;
-        //});
-    }
+        
+
+        //$scope.vinId = 0;
+        $scope.addTodo = function (id, vinId, utilisateurId) {
+                //$scope.favoris.push($scope.vinId);
+                $scope.errortext = "";
+                $scope.id = id;
+                $scope.vinId = vinId;
+                $scope.utilisateurId = utilisateurId;
+
+                var query = "INSERT INTO Favoris (id, vinId, utilisateurId) VALUES (?)";
+                var data = [];
+                res.forEach(function () {
+                    rowArgs.push("(?, ?, ?)");
+                    data.push($scope.id);
+                    data.push($scope.vinId);
+                    data.push($scope.utilisateurId);
+                });
+                query += rowArgs.join(", ");
+                $cordovaSQLite.execute(db, query, [data]).then(function (res) {
+                    console.log("inserted");
+                }, function (err) {
+                    console.log("could not inserted");
+                });
+
+
+
+        } //end of addTodo function
+
+
+        $scope.removeItem = function (x) {
+
+            var query = "delete from Favoris where id='" + $scope.favoris[x] + "'";
+            $cordovaSQLite.execute(db, query, []).then(function (res) {
+
+            }, function (err) {
+                alert("error deleting row=" + err);
+            });
+
+            $scope.todos.splice(x, 1);
+            $scope.errortext = "";
+
+        };
+    });
 })
