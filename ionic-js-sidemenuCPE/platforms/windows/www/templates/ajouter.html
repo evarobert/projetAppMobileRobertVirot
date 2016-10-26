@@ -11,7 +11,7 @@
                 <label class="item item-input">
                     <input type="number" ng-model="ajouterModel.millesime" placeholder="Mill�sime (ann�e)" />
                 </label>
-                <ion-list>
+                <ion-list id="couleur">
                     <ion-radio ng-model="ajouterModel.couleur" value="Blanc">Blanc</ion-radio>
                     <ion-radio ng-model="ajouterModel.couleur" value="Ros�">Ros�</ion-radio>
                     <ion-radio ng-model="ajouterModel.couleur" value="Rouge">Rouge</ion-radio>
@@ -21,7 +21,7 @@
                 </label>
                 <label class="item item-input item-select">
                     Note
-                    <ion-list>
+                    <ion-list id="note">
                         <ion-radio ng-model="ajouterModel.note" value="1">1</ion-radio>
                         <ion-radio ng-model="ajouterModel.note" value="2">2</ion-radio>
                         <ion-radio ng-model="ajouterModel.note" value="3">3</ion-radio>
