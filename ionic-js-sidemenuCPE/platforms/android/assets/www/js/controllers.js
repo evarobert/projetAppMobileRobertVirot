@@ -216,11 +216,18 @@ angular.module('starter.controllers', [])
 .controller('CarteCtrl', function ($scope) {
     function success(pos) {
         var crd = pos.coords;
-
         console.log('Your current position is:');
         console.log('Latitude : ' + crd.latitude);
         console.log('Longitude: ' + crd.longitude);
         console.log('More or less ' + crd.accuracy + ' meters.');
+        $.get("http://dev.virtualearth.net/REST/v1/Locations/" + crd.latitude + "," + crd.longitude + "?key=x1YM9wPP7jP8Zubo84cF~iNVEyFBL3uIbHd-lBU8vwg~Ap4rSG2x_BZiNfSWXEHNjgUL8-HzUVYeEvbb8dEVDmwEiazoBqjulsiYcNp_VFdW", function (data, status) {
+            console.log(data);
+            //console.log(data.resourceSets[0].resources[0].address.formattedAddress);
+            $scope.adresse = data.resourceSets[0].resources[0].address.formattedAddress;
+            console.log($scope.adresse);
+            document.getElementById('adresse').innerHTML = $scope.adresse;
+            $('adresse').html($scope.adresse);
+        });
         Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', {
 
             callback: function () {
@@ -235,38 +242,34 @@ angular.module('starter.controllers', [])
                     zoom: 13,
                     theme: new Microsoft.Maps.Themes.BingTheme()
                 });
-                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
-                    var searchManager = new Microsoft.Maps.Search.SearchManager(map);
-                    var reverseGeocodeRequestOptions = {
-                        location: new Microsoft.Maps.Location(crd.latitude, crd.longitude),
-                        callback: function (answer, userData) {
-                            map.setView({ bounds: answer.bestView });
-                            map.entities.push(new Microsoft.Maps.Pushpin(reverseGeocodeRequestOptions.location));
-                            document.getElementById('printoutPanel').innerHTML =
-                                answer.address.formattedAddress;
-                        }
-                    };
-                
-                    searchManager.reverseGeocode(reverseGeocodeRequestOptions);
-                    console.log(searchManager.reverseGeocode(reverseGeocodeRequestOptions));
-                });
                 var mapCenter = map.getCenter();
                 var epingle = new Microsoft.Maps.Pushpin(
                 mapCenter,
                 { width: 50, height: 50 }
                 );
-                map.entities.push(epingle);
-                }
+                map.entities.push(epingle);                
+               
+            }
+
+
                 
         });
-    };
+       };
 
     function error(err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
     };
-
-    navigator.geolocation.watchPosition(success, error);
-
+    function stopWatch() {
+        navigator.geolocation.clearWatch();
+    }
+    options = {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+    };
+   
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.watchPosition(success, error, options);
 
 })
 
