@@ -19,7 +19,7 @@
                 <label class="item item-input">
                     <input type="text" ng-model="ajouterModel.viticulteur" placeholder="Viticulteur" />
                 </label>
-                <label class="item item-input item-select">
+                <label class="item item-input">
                     Note
                     <ion-list>
                         <ion-radio ng-model="ajouterModel.note" value="1">1</ion-radio>
@@ -42,17 +42,16 @@
                     <input type="text" ng-model="ajouterModel.photo" placeholder="photo" />
                 </label>
                 <label class="item item-input">
-                     <input ng-change="onchange()" type="text" ng-model="ajouterModel.Tag[0]" placeholder="Tag" />
                     <input type="text" ng-model="ajouterModel.lieu" placeholder="Lieu" />
                 </label>
+                
                 <label class="item item-input">
                     Date de la dégustation
-                    <input ng-change="onchange1()"class="not-displayed" id="ajouterModel.Tag[1]" type="text" ng-model="ajouterModel.Tag[1]" placeholder="Tag" />
                 </label>
                 <label class="item item-input">
-                    <input type="date" ng-model="ajouterModel.date" pattern="dd/MM/yyyy" placeholder="Date" />
-                    <input class="not-displayed" id="ajouterModel.Tag[2]" type="text" ng-model="ajouterModel.Tag[2]" placeholder="Tag" />
+                    <input type="date" ng-model="ajouterModel.date" placeholder="Date" />
                 </label>
+                
 
             </div>
             <button ion-button class="button button-block button-assertive" type="button" ng-click="ajouterVin()">Ajouter ce vin</button>

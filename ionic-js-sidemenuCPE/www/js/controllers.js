@@ -42,29 +42,32 @@ angular.module('starter.controllers', [])
 
 
 })
-    .controller('RecherchesCtrl', function ($scope) {
+    .controller('RecherchesCtrl', function ($scope, $cordovaSQLite) {
         $scope.searchTxt = {};
         //    $scope.recherches = [
         //{ title: 'Recherche par Note', id: 1 },
         //{ title: 'Recherche par Tag', id: 2},
         //    ];
         
-        $scope.lancerecherches = function () {
+        $scope.lanceRecherches = function () {
             $scope.listRecherchetest = [];
             $scope.listRecherche = [];
-
-            if ($scope.searchTxt.filtre == 'note') {
-                j = 0;
-                for (i = 1; i < localStorage.length; i++) {
-                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-                    if ($scope.listRecherchetest[i - 1].note == $scope.searchTxt.txt)
-                    {
-                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                        j++;
+            if ($scope.searchTxt.filtre == '1') {
+            var query = "SELECT * FROM Vins WHERE note = (?)";
+            $cordovaSQLite.execute(db, query, [$scope.searchTxt.txt]).then(function (res) {
+                console.log("execute");
+                if (res.rows.length > 0) {
+                    for (var i = 0; i < res.rows.length; i++) {
+                        $scope.listRecherche.push(res.rows.item(i));
                     }
                 }
-            }
-            if ($scope.searchTxt.filtre == 'Tag') {
+            }, function (err) {
+                console.error(err);
+            });
+            
+                
+                }
+            if ($scope.searchTxt.filtre == '2') {
                 j = 0;
                 //localStorage.removeItem(0);
                 //console.log(localStorage);
@@ -172,24 +175,18 @@ angular.module('starter.controllers', [])
     $scope.ajouterVin = function () {
         console.log("add");
 
-        var query = "INSERT INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?)";
-
+        var query = "INSERT OUTPUT INSERTED.id INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?) ";
+     
         console.log("nom " + $scope.ajouterModel.nom + " appel " + $scope.ajouterModel.appellation
             + " mill " + $scope.ajouterModel.millesime + " viti " + $scope.ajouterModel.viticulteur
             + " lieu " + $scope.ajouterModel.lieu + " date " + $scope.ajouterModel.date +
             " note " + $scope.ajouterModel.note + " couleur " + $scope.ajouterModel.couleur);
 
         $cordovaSQLite.execute(db, query, [$scope.ajouterModel.nom, $scope.ajouterModel.appellation, $scope.ajouterModel.millesime, $scope.ajouterModel.viticulteur, $scope.ajouterModel.lieu, $scope.ajouterModel.date, $scope.ajouterModel.note, $scope.ajouterModel.couleur]).then(function (res) {
-            console.log("inserted");
+            console.log("inserted" + res.rows.item);
         }, function (err) {
             console.error(err);
         });
-            
-       
-        $scope.ajouterModel = {}
-        document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
-        document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
-        alert("Vin ajouté");
     };
 })
 

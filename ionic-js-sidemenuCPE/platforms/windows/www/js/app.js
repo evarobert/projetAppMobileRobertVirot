@@ -32,6 +32,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             //$cordovaSQLite.execute(db, 'DROP TABLE Favoris', []);
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Vins (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, appellation TEXT, millesime INTEGER, viticulteur TEXT, lieu TEXT, date TEXT, note INTEGER, couleur TEXT)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Tags (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, texte TEXT)');
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Utilisateurs (id INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT, mdp TEXT, nom TEXT)');
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Photos (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, url TEXT)');
         }
         catch (error) {
             alert("Error creating table->" + error);
@@ -49,26 +52,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
           controller: 'AppCtrl'
       })
 
-    .state('app.recherche', {
-        url: '/recherche',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/recherche.html',
-                controller: 'RechercheCtrl'
-            }
-        }
-    })
+   
+         .state('app.recherches', {
+             url: '/recherches',
+             views: {
+                 'menuContent': {
+                     templateUrl: 'templates/recherches.html',
+                     controller: 'RecherchesCtrl'
+                 }
+             }
+         })
 
-.state('app.recherches', {
-    url: '/recherches',
-    views: {
-        'menuContent': {
-            templateUrl: 'templates/recherches.html',
-            controller: 'RecherchesCtrl'
-        }
-    }
-})
 
+         .state('app.recherche', {
+             url: '/recherche',
+             views: {
+                 'menuContent': {
+                     templateUrl: 'templates/recherche.html',
+                     controller: 'RechercheCtrl'
+                 }
+             }
+         })
     .state('app.ajouter', {
         url: '/ajouter',
         views: {
@@ -99,6 +103,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
          }
      }
  })
+
+.state('app.carte', {
+            url: '/carte',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/carte.html',
+                    controller: 'CarteCtrl'
+                }
+            }
+        })
 
     .state('app.details', {
         url: '/listes/:listeId/:couleur/:vinId',

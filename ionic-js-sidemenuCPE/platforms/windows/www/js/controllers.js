@@ -42,43 +42,59 @@
 
 
 })
-    .controller('RecherchesCtrl', function ($scope) {
+    .controller('RecherchesCtrl', function ($scope, $cordovaSQLite) {
         $scope.searchTxt = {};
         //    $scope.recherches = [
         //{ title: 'Recherche par Note', id: 1 },
         //{ title: 'Recherche par Tag', id: 2},
         //    ];
         
-        $scope.lancerecherches = function () {
+        $scope.lanceRecherches = function () {
             $scope.listRecherchetest = [];
             $scope.listRecherche = [];
-
-            if ($scope.searchTxt.filtre == 'note') {
-                j = 0;
-                for (i = 1; i < localStorage.length; i++) {
-                    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-                    if ($scope.listRecherchetest[i - 1].note == $scope.searchTxt.txt)
-                    {
-                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                        j++;
+            if ($scope.searchTxt.filtre == '1') {
+            var query = "SELECT * FROM Vins WHERE note = (?)";
+            $cordovaSQLite.execute(db, query, [$scope.searchTxt.txt]).then(function (res) {
+                console.log("execute");
+                if (res.rows.length > 0) {
+                    for (var i = 0; i < res.rows.length; i++) {
+                        $scope.listRecherche.push(res.rows.item(i));
                     }
                 }
-            }
-            if ($scope.searchTxt.filtre == 'Tag') {
+            }, function (err) {
+                console.error(err);
+            });
+            
+                
+                }
+            if ($scope.searchTxt.filtre == '2') {
                 j = 0;
+                //localStorage.removeItem(0);
+                //console.log(localStorage);
+                //$scope.listRecherchetest = JSON.parse(localStorage);
+                //console.log($scope.listRecherchetest);
+                //for ( i=0; i< $scope.listRecherchetest ;i++ )
+                //{
+                //    if ($scope.listRecherchetest[i].Tag.indexOf($scope.searchTxt.txt) != -1)
+                //    {
+                //        $scope.listRecherche[j] = $scope.listRecherchetest[i];
+                //        j++;
+                //    }
+                //};
                 for (i = 1; i < localStorage.length; i++) {
                     $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
                     console.log($scope.listRecherchetest[i - 1]);
+                    console.log(localStorage);
+
                     if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
-                        $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                        j++;
-                       
+                           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
+                         j++;
                     }
                 }
             }
-            console.log($scope.searchTxt);
             console.log($scope.listRecherche);
-        };
+        
+        }
     })
 
     .controller('RechercheCtrl', function ($scope,$stateParams) {
@@ -87,63 +103,18 @@
         for (i = 1; i < localStorage.length; i++)
         {
             $scope.listRecherche[i-1] = JSON.parse(localStorage.getItem(i));
-        }
+         }
         
             
-        if ($stateParams.rechercheId == 1) {
-            $scope.typerecherche = "'note'";
-        }
-        if ($stateParams.rechercheId == 2)
-        { $scope.typerecherche = 'Tag' }
-        console.log($scope.typerecherche);
-        console.log($scope);
+            if ($stateParams.rechercheId == 1) {
+                $scope.typerecherche = "'note'";
+            }
+            if ($stateParams.rechercheId == 2)
+            { $scope.typerecherche = 'Tag' }
+            console.log($scope.typerecherche);
+            console.log($scope);
         
     })
-    .controller('RechercheCtrl', function ($scope) {
-
-        $scope.listRecherche = [];
-        for (var i = 1; i < localStorage.length; i++) {
-            $scope.listRecherche[i - 1] = JSON.parse(localStorage.getItem(i));
-        }
-        $scope.searchTxt = '';
-        $scope.searchTag = '';
-        console.log($scope);
-
-    })
-
-title: 'Recherche par Note', id: 1 },
-//{ title: 'Recherche par Tag', id: 2},
-//    ];
-        
-$scope.lancerecherches = function () {
-    $scope.listRecherchetest = [];
-    $scope.listRecherche = [];
-
-    if ($scope.searchTxt.filtre == 'note') {
-        j = 0;
-        for (i = 1; i < localStorage.length; i++) {
-            $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-            if ($scope.listRecherchetest[i - 1].note == $scope.searchTxt.txt)
-            {
-                $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                j++;
-            }
-        }
-    }
-    if ($scope.searchTxt.filtre == 'Tag') {
-        j = 0;
-        for (i = 1; i < localStorage.length; i++) {
-            $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-            console.log($scope.listRecherchetest[i - 1]);
-            if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
-                $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                j++;
-                       
-            }
-        }
-    }
-    console.log($scope.searchTxt);
-    console.log($scope.listRecherche);
 
 
 .controller('ListesCtrl', function ($scope) {
@@ -181,13 +152,8 @@ $scope.lancerecherches = function () {
 .controller('AjouterCtrl', function ($scope, $stateParams, $ionicPlatform, $cordovaSQLite) {
     $scope.ajouterModel = {};
     $scope.ajouterModel.Tag = [];
-
-    if ($scope.ajouterModel.Tag[0] != "undefined") {
-        document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
-    }
-    if ($scope.ajouterModel.Tag[1] != "undefined") {
-        document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
-    }
+    document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
+    document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
     $scope.onchange = function () {
 
         document.getElementById("ajouterModel.Tag[1]").style.visibility = "visible";
@@ -209,15 +175,15 @@ $scope.lancerecherches = function () {
     $scope.ajouterVin = function () {
         console.log("add");
 
-        var query = "INSERT INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?)";
-
+        var query = "INSERT OUTPUT INSERTED.id INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?) ";
+     
         console.log("nom " + $scope.ajouterModel.nom + " appel " + $scope.ajouterModel.appellation
             + " mill " + $scope.ajouterModel.millesime + " viti " + $scope.ajouterModel.viticulteur
             + " lieu " + $scope.ajouterModel.lieu + " date " + $scope.ajouterModel.date +
             " note " + $scope.ajouterModel.note + " couleur " + $scope.ajouterModel.couleur);
 
         $cordovaSQLite.execute(db, query, [$scope.ajouterModel.nom, $scope.ajouterModel.appellation, $scope.ajouterModel.millesime, $scope.ajouterModel.viticulteur, $scope.ajouterModel.lieu, $scope.ajouterModel.date, $scope.ajouterModel.note, $scope.ajouterModel.couleur]).then(function (res) {
-            console.log("inserted");
+            console.log("inserted" + res.rows.item);
         }, function (err) {
             console.error(err);
         });
@@ -246,6 +212,66 @@ $scope.lancerecherches = function () {
         });
 
     }
+})
+
+.controller('CarteCtrl', function ($scope) {
+    function success(pos) {
+        var crd = pos.coords;
+        console.log('Your current position is:');
+        console.log('Latitude : ' + crd.latitude);
+        console.log('Longitude: ' + crd.longitude);
+        console.log('More or less ' + crd.accuracy + ' meters.');
+        $.get("http://dev.virtualearth.net/REST/v1/Locations/" + crd.latitude + "," + crd.longitude + "?key=x1YM9wPP7jP8Zubo84cF~iNVEyFBL3uIbHd-lBU8vwg~Ap4rSG2x_BZiNfSWXEHNjgUL8-HzUVYeEvbb8dEVDmwEiazoBqjulsiYcNp_VFdW", function (data, status) {
+            console.log(data);
+            //console.log(data.resourceSets[0].resources[0].address.formattedAddress);
+            $scope.adresse = data.resourceSets[0].resources[0].address.formattedAddress;
+            console.log($scope.adresse);
+            document.getElementById('adresse').innerHTML = $scope.adresse;
+            $('adresse').html($scope.adresse);
+        });
+        Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', {
+
+            callback: function () {
+                23
+                var map = new Microsoft.Maps.Map($('#divMap').get(0),
+                {
+                    credentials: "x1YM9wPP7jP8Zubo84cF~iNVEyFBL3uIbHd-lBU8vwg~Ap4rSG2x_BZiNfSWXEHNjgUL8-HzUVYeEvbb8dEVDmwEiazoBqjulsiYcNp_VFdW",
+                    mapTypeId: Microsoft.Maps.MapTypeId.road,
+                    enableClickableLogo: false,
+                    enableSearchLogo: false,
+                    center: new Microsoft.Maps.Location(crd.latitude, crd.longitude),
+                    zoom: 13,
+                    theme: new Microsoft.Maps.Themes.BingTheme()
+                });
+                var mapCenter = map.getCenter();
+                var epingle = new Microsoft.Maps.Pushpin(
+                mapCenter,
+                { width: 50, height: 50 }
+                );
+                map.entities.push(epingle);                
+               
+            }
+
+
+                
+        });
+       };
+
+    function error(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    };
+    function stopWatch() {
+        navigator.geolocation.clearWatch();
+    }
+    options = {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+    };
+   
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.watchPosition(success, error, options);
+
 })
 
 .controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaSQLite) {

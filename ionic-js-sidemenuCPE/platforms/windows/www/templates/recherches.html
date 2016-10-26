@@ -6,16 +6,17 @@
                 <br />
 
                 <label for="titleInput">Recherche</label>
-                <form ng-submit="lancerecherches()">
+                <form >
                     <label class="item item-input item-select">
                         Filtre
-                        <select ng-model="searchTxt.filtre">
-                            <option>note</option>
-                            <option>Tag</option>
-                        </select>
-                    </label>
+                        <ion-list>
+                            <ion-radio ng-model="searchTxt.filtre" value="1">note</ion-radio>
+                            <ion-radio ng-model="searchTxt.filtre" value="1">Tag</ion-radio>
+                        </ion-list>
+                            
+</label>
                     <input id="titleInput" ng-model="searchTxt.txt">
-                    <button ion-button class="button button-block button-assertive" type="submit">Lancer la recherche</button>
+                    <button ion-button class="button button-block button-assertive" type="button" ng-click="lanceRecherches()">Lancer la recherche</button>
                 </form>
             </ion-item>
             <div class="card">

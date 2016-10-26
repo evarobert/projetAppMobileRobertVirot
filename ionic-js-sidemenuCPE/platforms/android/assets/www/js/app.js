@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             alert(error);
         }
         try {
-            //$cordovaSQLite.execute(db, 'DROP TABLE Vins', []);
+            //$cordovaSQLite.execute(db, 'DROP TABLE Favoris', []);
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Vins (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, appellation TEXT, millesime INTEGER, viticulteur TEXT, lieu TEXT, date TEXT, note INTEGER, couleur TEXT)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
         }
