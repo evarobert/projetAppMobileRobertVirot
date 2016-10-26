@@ -1,0 +1,59 @@
+<ion-view view-title="Ajouter">
+    <ion-content>
+        <form>
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" ng-model="ajouterModel.nom" placeholder="Nom du vin" />
+                </label>
+                <label class="item item-input">
+                    <input type="text" ng-model="ajouterModel.appellation" placeholder="Appellation" />
+                </label>
+                <label class="item item-input">
+                    <input type="number" ng-model="ajouterModel.millesime" placeholder="Millésime (année)" />
+                </label>
+                <ion-list>
+                    <ion-radio ng-model="ajouterModel.couleur" value="Blanc">Blanc</ion-radio>
+                    <ion-radio ng-model="ajouterModel.couleur" value="Rosé">Rosé</ion-radio>
+                    <ion-radio ng-model="ajouterModel.couleur" value="Rouge">Rouge</ion-radio>
+                </ion-list>
+                <label class="item item-input">
+                    <input type="text" ng-model="ajouterModel.viticulteur" placeholder="Viticulteur" />
+                </label>
+                <label class="item item-input item-select">
+                    Note
+                    <select ng-model="ajouterModel.note">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </label>
+                <!--<label class="item item-input">
+                    <input ng-change="onchange()" type="text" ng-model="ajouterModel.Tag[0]" placeholder="Tag" />
+                </label>
+                <label class="item item-input">
+                    <input ng-change="onchange1()" class="not-displayed" id="ajouterModel.Tag[1]" type="text" ng-model="ajouterModel.Tag[1]" placeholder="Tag" />
+                </label>
+                <label class="item item-input">
+                    <input class="not-displayed" id="ajouterModel.Tag[2]" type="text" ng-model="ajouterModel.Tag[2]" placeholder="Tag" />
+                </label>-->
+                <label class="item item-input">
+                    <input type="text" ng-model="ajouterModel.lieu" placeholder="Lieu" />
+                </label>
+                <label class="item item-input">
+                    Date de la dégustation
+                </label>
+                <label class="item item-input">
+                    <input type="date" ng-model="ajouterModel.date" placeholder="Date" />
+                </label>
+
+            </div>
+            <button ion-button class="button button-block button-assertive" type="button" ng-click="ajouterVin()">Ajouter ce vin</button>
+        </form>
+
+        <div ng-repeat="vin in vins">
+            {{vin}}
+        </div>
+    </ion-content>
+</ion-view>

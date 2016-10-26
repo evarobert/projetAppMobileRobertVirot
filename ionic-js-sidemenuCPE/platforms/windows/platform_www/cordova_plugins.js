@@ -63,6 +63,30 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+        "id": "cordova-sqlite-storage.SQLitePlugin",
+        "pluginId": "cordova-sqlite-storage",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-sqlite-storage/src/windows/sqlite-proxy.js",
+        "id": "cordova-sqlite-storage.SQLiteProxy",
+        "pluginId": "cordova-sqlite-storage",
+        "merges": [
+            ""
+        ]
+    },
+    {
+        "file": "plugins/cordova-sqlite-storage/src/windows/SQLite3-Win-RT/SQLite3JS/js/SQLite3.js",
+        "id": "cordova-sqlite-storage.SQLite3",
+        "pluginId": "cordova-sqlite-storage",
+        "merges": [
+            ""
+        ]
+    },
+    {
         "file": "plugins/ionic-plugin-keyboard/src/windows/KeyboardProxy.js",
         "id": "ionic-plugin-keyboard.KeyboardProxy",
         "pluginId": "ionic-plugin-keyboard",
@@ -80,6 +104,7 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-statusbar": "2.1.3",
     "cordova-plugin-whitelist": "1.2.2",
+    "cordova-sqlite-storage": "1.4.8",
     "ionic-plugin-keyboard": "2.2.1"
 };
 // BOTTOM OF METADATA

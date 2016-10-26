@@ -1,0 +1,20 @@
+﻿<ion-view view-title="Vins">
+    <ion-content>
+        <form>
+            <h2>Favori</h2>
+            <label class="item item-input">
+                <input type="number" ng-model="favorisModel.vinId" placeholder="Id vin" />
+                <input type="number" ng-model="favorisModel.utilisateurId" placeholder="Id user" />
+            </label>
+
+            <button type="button" ng-click="addTodo()" ion-button class="button button-block button-assertive">Ajouter</button>
+        </form>
+
+       
+        <p>{{status}}</p>
+        <div ng-repeat="favori in favoris">
+            {{favori}}
+        </div>
+
+    </ion-content>
+</ion-view>
