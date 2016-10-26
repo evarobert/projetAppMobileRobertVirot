@@ -1,0 +1,33 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "ionic-js-sidemenuCPE"
+        }
+    },
+    "dependent_plugins": {}
+}
