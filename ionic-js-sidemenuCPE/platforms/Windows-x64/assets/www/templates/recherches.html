@@ -1,4 +1,4 @@
-﻿
+
 <ion-view view-title="recherche">
     <ion-content>
         <ion-list>
@@ -6,15 +6,15 @@
                 <br />
 
                 <label for="titleInput">Recherche</label>
-                <form>
+                <form >
                     <label class="item item-input item-select">
                         Filtre
                         <ion-list>
                             <ion-radio ng-model="searchTxt.filtre" value="1">note</ion-radio>
-                            <ion-radio ng-model="searchTxt.filtre" value="2">Tag</ion-radio>
+                            <ion-radio ng-model="searchTxt.filtre" value="1">Tag</ion-radio>
                         </ion-list>
-
-                    </label>
+                            
+</label>
                     <input id="titleInput" ng-model="searchTxt.txt">
                     <button ion-button class="button button-block button-assertive" type="button" ng-click="lanceRecherches()">Lancer la recherche</button>
                 </form>
@@ -24,8 +24,8 @@
                     <div ng-repeat="vin in listRecherche ">
                         <h2>{{vin.nom}}</h2>
                         <h2>{{vin.note}}</h2>
-                        <div ng-repeat="tag in listTag ">
-                            <h4>{{tag.texte}}</h4>
+                        <div ng-repeat="tag in vin.Tag">
+                            <h4>{{tag}}</h4>
                         </div><br />
                     </div>
                 </div>

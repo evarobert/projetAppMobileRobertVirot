@@ -29,7 +29,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             alert(error);
         }
         try {
-            //$cordovaSQLite.execute(db, 'DROP TABLE Favoris', []);
+            //$cordovaSQLite.execute(db, 'DROP TABLE Vins', []);
+            //$cordovaSQLite.execute(db, 'DROP TABLE Tags', []);
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Vins (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, appellation TEXT, millesime INTEGER, viticulteur TEXT, lieu TEXT, date TEXT, note INTEGER, couleur TEXT)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Tags (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, texte TEXT)');
@@ -39,6 +40,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         catch (error) {
             alert("Error creating table->" + error);
         }
+
+        localStorage.clear();
     });
 })
 
@@ -52,8 +55,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
           controller: 'AppCtrl'
       })
 
+        .state('app.connexion', {
+            url: '/connexion',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/connexion.html',
+                    controller: 'ConnexionCtrl'
+                }
+            }
+        })
+
+           .state('app.inscription', {
+               url: '/inscription',
+               views: {
+                   'menuContent': {
+                       templateUrl: 'templates/inscription.html',
+                       controller: 'InscriptionCtrl'
+                   }
+               }
+           })
+
    
          .state('app.recherches', {
+             cache: false,
              url: '/recherches',
              views: {
                  'menuContent': {
@@ -65,6 +89,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 
          .state('app.recherche', {
+             cache: false,
              url: '/recherche',
              views: {
                  'menuContent': {
@@ -73,7 +98,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
                  }
              }
          })
+
     .state('app.ajouter', {
+        cache: false,
         url: '/ajouter',
         views: {
             'menuContent': {
@@ -85,6 +112,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 
          .state('app.listes', {
+             cache: false,
              url: '/listes',
              views: {
                  'menuContent': {
@@ -95,6 +123,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
          })
 
  .state('app.liste', {
+     cache: false,
      url: '/listes/:listeId/:couleur',
      views: {
          'menuContent': {
@@ -105,6 +134,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
  })
 
 .state('app.carte', {
+    cache: false,
             url: '/carte',
             views: {
                 'menuContent': {
@@ -115,6 +145,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         })
 
     .state('app.details', {
+         cache: false,
         url: '/listes/:listeId/:couleur/:vinId',
         views: {
             'menuContent': {
@@ -125,6 +156,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     })
 
     .state('app.favoris', {
+        cache: false,
         url: '/favoris',
         views: {
             'menuContent': {
@@ -136,5 +168,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/listes');
+    $urlRouterProvider.otherwise('/app/connexion');
 });

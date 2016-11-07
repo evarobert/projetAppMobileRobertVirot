@@ -1,6 +1,7 @@
 ﻿<ion-view view-title="Détails du vin">
     <ion-content>
       <div ng-model="detailsModel.vin">
+          {{detailsModel.vin.id}}
           {{detailsModel.vin.nom}}
           {{detailsModel.vin.appellation}}
           {{detailsModel.vin.millesime}}
@@ -11,6 +12,9 @@
               <img src={{detailsModel.vin.photo}} style="width:250px; height:250px;"  alt="Photo" />
           </p>
       </div>
+        <div ng-repeat="tag in tags">
+            {{ tag.texte }}
+        </div>
         <button type="button" ng-click="ajouterFavori()">Ajouter en favori</button>
     </ion-content>
 </ion-view>
