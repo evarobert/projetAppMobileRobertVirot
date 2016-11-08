@@ -132,9 +132,10 @@
                 //    }
                 //}
                 
-                var query1 = "SELECT * FROM Tags WHERE texte = (?)";
+                var query1 = "SELECT * FROM Tags WHERE texte LIKE (?)";
                 var query2 = "SELECT * FROM Vins WHERE id = (?)";
-                $cordovaSQLite.execute(db, query1, [$scope.searchTxt.txt]).then(function (res) {
+                var txtquery1 = "%" + $scope.searchTxt.txt + "%";
+                $cordovaSQLite.execute(db, query1, [txtquery1]).then(function (res) {
                     console.log("query1");
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
@@ -142,12 +143,12 @@
                         }
                     }
                     $scope.listTag.forEach(function (tag) {
-                        var Id = tag.vinId;
-                        $cordovaSQLite.execute(db, query2, Id).then(function (res) {
+                        var Id = tag.vinId ;
+                        $cordovaSQLite.execute(db, query2, [Id]).then(function (res) {
                             console.log("query2")
                             console.log(Id);
                             $scope.listRecherche.push(res.rows.item(0));
-                            console.log($scope.listRecherche);
+                            console.log(res.rows.item(0));
                             
                         }),
                         function (err) {
@@ -156,7 +157,9 @@
                         });
                     
                 }
-                )};
+                )
+
+            };
             }
 
         }
@@ -257,6 +260,7 @@
             
             var query = "INSERT INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?) ";
             var query2 = "INSERT INTO Tags (vinId, texte) VALUES (?,?)";
+            var query3 = "INSERT INTO Photos (vinId, url) VALUES (?,?)";
             console.log("nom " + $scope.ajouterModel.nom + " appel " + $scope.ajouterModel.appellation
                 + " mill " + $scope.ajouterModel.millesime + " viti " + $scope.ajouterModel.viticulteur
                 + " lieu " + $scope.ajouterModel.lieu + " date " + $scope.ajouterModel.date +
@@ -270,6 +274,10 @@
                 $scope.vinId = res1.insertId;
                 console.log("vinID:" + $scope.vinId);
 
+                $cordovaSQLite.execute(db, query3, [$scope.vinId, $scope.ajouterModel.photo]).then(function (res) {
+                    console.log("query3");
+                    consoloe.log($scope.ajouterModel.photo);
+                })
                 $scope.ajouterModel.Tag.forEach(function (tag) {
                     console.log(tag);
                     $cordovaSQLite.execute(db, query2, [$scope.vinId, tag]).then(function (res) {
@@ -298,6 +306,16 @@
         var query = "SELECT * FROM Vins WHERE id = (?)";
         $cordovaSQLite.execute(db, query, [$stateParams.vinId]).then(function (res) {
             $scope.detailsModel.vin = (res.rows.item(0));
+            console.log($scope.detailsModel.vin);
+        }, function (err) {
+            console.error(err);
+        });
+
+        $scope.photo = {};
+        var query = "SELECT * FROM Photos WHERE vinId = (?)";
+        $cordovaSQLite.execute(db, query, [$stateParams.vinId]).then(function (res) {
+            $scope.photo = (res.rows.item(0));
+            console.log($scope.photo);
         }, function (err) {
             console.error(err);
         });

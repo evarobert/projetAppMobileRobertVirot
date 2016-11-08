@@ -24,7 +24,7 @@
                     <div ng-repeat="vin in listRecherche ">
                         <h2>{{vin.nom}}</h2>
                         <h2>{{vin.note}}</h2>
-                        <div ng-repeat="tag in listTag ">
+                        <div ng-repeat="tag in listTag | filter: {vinId : vin.id} ">
                             <h4>{{tag.texte}}</h4>
                         </div><br />
                     </div>
