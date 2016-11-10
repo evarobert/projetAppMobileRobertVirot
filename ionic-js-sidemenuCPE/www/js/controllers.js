@@ -35,17 +35,16 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ConnexionCtrl', function ($scope, $cordovaSQLite, $state, $rootScope) {
+    //Controlleur qui s'occupe de la l'authentification
     $scope.connexionModel = {};
     $rootScope.connecte = false;
 
     $scope.connecter = function () {
-        console.log("coucou");
         var query = "SELECT * FROM Utilisateurs WHERE login = (?) AND mdp = (?)";
         $cordovaSQLite.execute(db, query, [$scope.connexionModel.login, $scope.connexionModel.mdp]).then(function (res) {
             if (res.rows.length > 0) {
-                //console.log(res.rows.item(0));
+
                 localStorage.setItem(0, JSON.stringify(res.rows.item(0)));
-                console.log("tu existes baby");
 
                 $rootScope.connecte = true;
                 $rootScope.utilisateurId = JSON.parse(localStorage.getItem(0)).id;
@@ -55,10 +54,8 @@ angular.module('starter.controllers', [])
                 $rootScope.connecte = false;
                 $rootScope.utilisateurId = 0;
                 $state.go("app.inscription", { redirect: true });
-                //ms-appx://io.cordova.myapp9e0158/www/index.html#/app/connexion
                 console.log(window.location.href);
-                //redirection vers inscription
-                //window.location.href = "ms-appx://io.cordova.myapp9e0158/www/index.html#/app/inscription";
+               
             }
 
         }, function (err) {
@@ -68,23 +65,22 @@ angular.module('starter.controllers', [])
 })
 
     .controller('InscriptionCtrl', function ($scope, $cordovaSQLite, $state) {
+        //Controlleur pour l'ajout d'un utilisateur
         $scope.inscriptionModel = {};
-
         $scope.inscrire = function () {
             var query = "INSERT INTO Utilisateurs (login, mdp, nom) VALUES (?,?,?) ";
 
-            console.log($scope.inscriptionModel);
             $cordovaSQLite.execute(db, query, [$scope.inscriptionModel.login, $scope.inscriptionModel.mdp, $scope.inscriptionModel.nom]).then(function (res) {
-                console.log("inséré");
+
                 $state.go("app.connexion", { redirect: true });
             }),
                 function (err) {
-                    console.error(err);
                 }
         };
     })
 
     .controller('RecherchesCtrl', function ($scope, $cordovaSQLite, $rootScope, $state) {
+        //Controlleur pour la recherche par tag et par note
         if ($rootScope.connecte == true) {
             $scope.searchTxt = {};
 
@@ -92,11 +88,10 @@ angular.module('starter.controllers', [])
             $scope.listRecherchetest = [];
             $scope.listRecherche = [];
             $scope.listTag = [];
-
+            //recherche par note
             if ($scope.searchTxt.filtre == '1') {
                 var query = "SELECT * FROM Vins WHERE note = (?)";
                 $cordovaSQLite.execute(db, query, [$scope.searchTxt.txt]).then(function (res) {
-                    console.log("execute");
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
                             $scope.listRecherche.push(res.rows.item(i));
@@ -108,35 +103,13 @@ angular.module('starter.controllers', [])
 
 
             }
+            //recherche par tag, on recupere dabord les tag qui correspondent a la recherche puis les vins associé
             if ($scope.searchTxt.filtre == '2') {
-                //localStorage.removeItem(0);
-                //console.log(localStorage);
-                //$scope.listRecherchetest = JSON.parse(localStorage);
-                //console.log($scope.listRecherchetest);
-                //for ( i=0; i< $scope.listRecherchetest ;i++ )
-                //{
-                //    if ($scope.listRecherchetest[i].Tag.indexOf($scope.searchTxt.txt) != -1)
-                //    {
-                //        $scope.listRecherche[j] = $scope.listRecherchetest[i];
-                //        j++;
-                //    }
-                //};
-                //for (i = 1; i < localStorage.length; i++) {
-                //    $scope.listRecherchetest[i - 1] = JSON.parse(localStorage.getItem(i));
-                //    console.log($scope.listRecherchetest[i - 1]);
-                //    console.log(localStorage);
-
-                //    if ($scope.listRecherchetest[i - 1].Tag.indexOf($scope.searchTxt.txt) != -1) {
-                //           $scope.listRecherche[j] = $scope.listRecherchetest[i - 1];
-                //         j++;
-                //    }
-                //}
-                
+                              
                 var query1 = "SELECT * FROM Tags WHERE texte LIKE (?)";
                 var query2 = "SELECT * FROM Vins WHERE id = (?)";
                 var txtquery1 = "%" + $scope.searchTxt.txt + "%";
                 $cordovaSQLite.execute(db, query1, [txtquery1]).then(function (res) {
-                    console.log("query1");
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
                             $scope.listTag.push(res.rows.item(i));
@@ -145,11 +118,8 @@ angular.module('starter.controllers', [])
                     $scope.listTag.forEach(function (tag) {
                         var Id = tag.vinId ;
                         $cordovaSQLite.execute(db, query2, [Id]).then(function (res) {
-                            console.log("query2")
-                            console.log(Id);
                             $scope.listRecherche.push(res.rows.item(0));
-                            console.log(res.rows.item(0));
-                            
+                            console.log($scope.listRecherche[0].nom);
                         }),
                         function (err) {
                             console.error(err);
@@ -168,34 +138,15 @@ angular.module('starter.controllers', [])
         }
     })
 
-    .controller('RechercheCtrl', function ($scope, $stateParams, $rootScope, $state) {
-        if ($rootScope.connecte == true) {
-            $scope.listRecherche = [];
-            for (i = 1; i < localStorage.length; i++) {
-                $scope.listRecherche[i - 1] = JSON.parse(localStorage.getItem(i));
-            }
-
-
-            if ($stateParams.rechercheId == 1) {
-                $scope.typerecherche = "'note'";
-            }
-            if ($stateParams.rechercheId == 2)
-            { $scope.typerecherche = 'Tag' }
-            console.log($scope.typerecherche);
-            console.log($scope);
-        }
-        else {
-            $state.go("app.connexion", { redirect: true });
-        }
-    })
 
 
 .controller('ListesCtrl', function ($scope, $rootScope, $state) {
+    //Controlleur pour le choix de la liste
     if ($rootScope.connecte == true) {
         $scope.listes = [
           { title: 'Tous les vins', id: 1, couleur: "" },
           { title: 'Vins blancs', id: 2, couleur: "Blanc" },
-          { title: 'Vins rosés', id: 3, couleur: "Rosé" },
+          { title: 'Vins roses', id: 3, couleur: "Rose" },
           { title: 'Vins rouges', id: 4, couleur: "Rouge" }
         ];
     }
@@ -205,6 +156,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ListeCtrl', function ($scope, $stateParams, $cordovaSQLite, $rootScope, $state) {
+    //Controlleur qui affiche la liste en foncion du critere du controlleur ListesCtrl
     if ($rootScope.connecte == true) {
         $scope.listeVins = [];
         $cordovaSQLite.execute(db, 'SELECT * FROM Vins')
@@ -213,7 +165,6 @@ angular.module('starter.controllers', [])
                      if (res.rows.length > 0) {
                          for (var i = 0; i < res.rows.length; i++) {
                              $scope.listeVins.push(res.rows.item(i));
-                             //console.log("id = " + res.rows.item(i).id + " nom = " + res.rows.item(i).nom + " appellation = " + res.rows.item(i).appellation);
                          }
                      }
                  },
@@ -232,11 +183,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AjouterCtrl', function ($scope, $stateParams, $ionicPlatform, $cordovaSQLite, $rootScope, $state) {
+    //Controlleur pour l'ajout d'un vin
     if ($rootScope.connecte == true) {
+        //déclaration des variables
         $scope.ajouterModel = {};
         $scope.ajouterModel.Tag = [];
         document.getElementById("ajouterModel.Tag[1]").style.visibility = "hidden";
         document.getElementById("ajouterModel.Tag[2]").style.visibility = "hidden";
+        //fonction pour passer les champs de tag d'invisible a visible si un tag est rempli
         $scope.onchange = function () {
 
             document.getElementById("ajouterModel.Tag[1]").style.visibility = "visible";
@@ -256,33 +210,24 @@ angular.module('starter.controllers', [])
         $scope.ajouterModel.note = "";
 
         $scope.ajouterVin = function () {
-            console.log("add");
-            
+            //déclaration des requetes pour les 3 tables concerné par l'ajout d'un vin
             var query = "INSERT INTO Vins (nom, appellation, millesime, viticulteur, lieu, date, note, couleur) VALUES (?,?,?,?,?,?,?,?) ";
             var query2 = "INSERT INTO Tags (vinId, texte) VALUES (?,?)";
             var query3 = "INSERT INTO Photos (vinId, url) VALUES (?,?)";
+
             console.log("nom " + $scope.ajouterModel.nom + " appel " + $scope.ajouterModel.appellation
                 + " mill " + $scope.ajouterModel.millesime + " viti " + $scope.ajouterModel.viticulteur
                 + " lieu " + $scope.ajouterModel.lieu + " date " + $scope.ajouterModel.date +
                 " note " + $scope.ajouterModel.note + " couleur " + $scope.ajouterModel.couleur);
-            console.log("avant les query")
 
-            console.log($scope.ajouterModel);
             $cordovaSQLite.execute(db, query, [$scope.ajouterModel.nom, $scope.ajouterModel.appellation, $scope.ajouterModel.millesime, $scope.ajouterModel.viticulteur, $scope.ajouterModel.lieu, $scope.ajouterModel.date, $scope.ajouterModel.note, $scope.ajouterModel.couleur]).then(function (res1) {
-                console.log("query1");
-                console.log("inserted" + res1.insertId);
                 $scope.vinId = res1.insertId;
-                console.log("vinID:" + $scope.vinId);
 
                 $cordovaSQLite.execute(db, query3, [$scope.vinId, $scope.ajouterModel.photo]).then(function (res) {
-                    console.log("query3");
-                    consoloe.log($scope.ajouterModel.photo);
                 })
                 $scope.ajouterModel.Tag.forEach(function (tag) {
                     console.log(tag);
                     $cordovaSQLite.execute(db, query2, [$scope.vinId, tag]).then(function (res) {
-                        console.log("query2:" + $scope.vinId);
-                        console.log("inserted vin id " + $scope.vinId + " tag " + tag);
                     }),
 
                 function (err) {
@@ -301,12 +246,12 @@ angular.module('starter.controllers', [])
 })
 
 .controller('DetailsCtrl', function ($scope, $stateParams, $cordovaSQLite, $rootScope, $state) {
+    //Controlleur pour afficher le detail d'un vin 
     if ($rootScope.connecte == true) {
         $scope.detailsModel = {};
         var query = "SELECT * FROM Vins WHERE id = (?)";
         $cordovaSQLite.execute(db, query, [$stateParams.vinId]).then(function (res) {
             $scope.detailsModel.vin = (res.rows.item(0));
-            console.log($scope.detailsModel.vin);
         }, function (err) {
             console.error(err);
         });
@@ -315,7 +260,6 @@ angular.module('starter.controllers', [])
         var query = "SELECT * FROM Photos WHERE vinId = (?)";
         $cordovaSQLite.execute(db, query, [$stateParams.vinId]).then(function (res) {
             $scope.photo = (res.rows.item(0));
-            console.log($scope.photo);
         }, function (err) {
             console.error(err);
         });
@@ -327,7 +271,6 @@ angular.module('starter.controllers', [])
             for (var i = 0; i < res.rows.length; i++)
             {
                 $scope.tags.push(res.rows.item(i));
-                console.log(res.rows.item(i));
             }
         }, function (err) {
             console.error(err);
@@ -340,7 +283,6 @@ angular.module('starter.controllers', [])
 
             var query = "INSERT INTO Favoris (vinId, utilisateurId) VALUES (?,?)";
             $cordovaSQLite.execute(db, query, [$scope.detailsModel.vin.id, $scope.detailsModel.utilisateurId]).then(function (res) {
-                console.log("inserted" + $scope.detailsModel.vin);
             }, function (err) {
                 console.error(err);
             });
@@ -352,6 +294,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CarteCtrl', function ($scope, $rootScope, $state) {
+    //Controlleur qui gere la carte, Helas elle ne fonctionne pas avec l'utilisation de local machine sur mon poste, je laisse donc le code si vous desirez le tester avec ripple
+    //Ce code track en direct la position du telephone et affiche l'adresse correspondant à la position dans un header
     if ($rootScope.connecte == true) {
         function success(pos) {
             var crd = pos.coords;
@@ -414,37 +358,44 @@ angular.module('starter.controllers', [])
 })
 
 .controller('FavorisCtrl', function ($scope, $ionicPlatform, $cordovaSQLite, $rootScope, $state) {
+    //Controlleur pour voir les favoris de l'utilisateur actuellement connecté
     if ($rootScope.connecte == true) {
         $scope.favoris = [];
-        console.log($rootScope.utilisateurId);
+        $scope.listRecherche = [];
         var query = 'SELECT * FROM Favoris WHERE utilisateurId = (?)';
+        var query2 = "SELECT * FROM Vins WHERE id = (?)";
         $cordovaSQLite.execute(db, query, [$rootScope.utilisateurId]).then(function (res) {
             if (res.rows.length > 0) {
                 for (var i = 0; i < res.rows.length; i++) {
                     $scope.favoris.push(res.rows.item(i));
-                    console.log("id = " + res.rows.item(i).id + " vinId = " + res.rows.item(i).vinId + " utilisateurId = " + res.rows.item(i).utilisateurId);
+                    //console.log("id = " + res.rows.item(i).id + " vinId = " + res.rows.item(i).vinId + " utilisateurId = " + res.rows.item(i).utilisateurId);
                 }
             }
-        }, function (err) {
-            console.error(err);
+            $scope.favoris.forEach(function (fav) {
+                var Id = fav.vinId;
+                $cordovaSQLite.execute(db, query2, [Id]).then(function (res) {
+                    $scope.listRecherche.push(res.rows.item(0));
+                  
+                }),
+                function (err) {
+                    console.error(err);
+                }
+            });
         });
+        
     }
 
     else 
     {
         $state.go("app.connexion", { redirect: true });
     }
-    //$scope.removeItem = function (x) {
 
-    //    var query = "delete from Favoris where id='" + $scope.favoris[x] + "'";
-    //    $cordovaSQLite.execute(db, query, []).then(function (res) {
+    $scope.supprFavori = function (x) {
+        var query = 'DELETE FROM Favoris where vinId= (?)';
+        $cordovaSQLite.execute(db, query, [x]).then(function (res) {
+        }, function (err) {
+            alert("error deleting row=" + err);
+        });
 
-    //    }, function (err) {
-    //        alert("error deleting row=" + err);
-    //    });
-
-    //    $scope.todos.splice(x, 1);
-    //    $scope.errortext = "";
-
-    //};
+    };
 })

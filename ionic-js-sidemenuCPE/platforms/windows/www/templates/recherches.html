@@ -8,27 +8,29 @@
                 <label for="titleInput">Recherche</label>
                 <form>
                     <label class="item item-input item-select">
-                        Filtre
+                        Filtre :
+                    </label>
                         <ion-list>
-                            <ion-radio ng-model="searchTxt.filtre" value="1">note</ion-radio>
+                            <ion-radio ng-model="searchTxt.filtre" value="1">Note</ion-radio>
                             <ion-radio ng-model="searchTxt.filtre" value="2">Tag</ion-radio>
                         </ion-list>
 
-                    </label>
+                    
                     <input id="titleInput" ng-model="searchTxt.txt">
-                    <button ion-button class="button button-block button-assertive" type="button" ng-click="lanceRecherches()">Lancer la recherche</button>
+                    <button ion-button class="button button-large incon-left ion-wand button-assertive" type="button" ng-click="lanceRecherches()">Lancer la recherche</button>
                 </form>
             </ion-item>
-            <div class="card">
+            
                 <div class="item item-text-wrap">
-                    <div ng-repeat="vin in listRecherche ">
-                        <h2>{{vin.nom}}</h2>
-                        <h2>{{vin.note}}</h2>
-                        <div ng-repeat="tag in listTag | filter: {vinId : vin.id} ">
-                            <h4>{{tag.texte}}</h4>
-                        </div><br />
+                        <div ng-repeat="vin in listRecherche ">
+                            <div class="card">
+                                <h2>Nom:{{vin.nom}}</h2>
+                                <h2>note:{{vin.note}}</h2>
+                                <div ng-repeat="tag in listTag ">
+                                    <h4>{{tag.texte}}</h4>
+                                </div><br />
+                            </div>
                     </div>
-                </div>
             </div>
 
         </ion-list>

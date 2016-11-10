@@ -29,8 +29,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             alert(error);
         }
         try {
-            //$cordovaSQLite.execute(db, 'DROP TABLE Vins', []);
-            //$cordovaSQLite.execute(db, 'DROP TABLE Tags', []);
+            $cordovaSQLite.execute(db, 'DROP TABLE Vins', []);
+            $cordovaSQLite.execute(db, 'DROP TABLE Tags', []);
+            $cordovaSQLite.execute(db, 'DROP TABLE Favoris', []);
+            $cordovaSQLite.execute(db, 'DROP TABLE Utilisateurs', []);
+            $cordovaSQLite.execute(db, 'DROP TABLE Photos', []);
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Vins (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, appellation TEXT, millesime INTEGER, viticulteur TEXT, lieu TEXT, date TEXT, note INTEGER, couleur TEXT)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Favoris (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, utilisateurId INTEGER)');
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS Tags (id INTEGER PRIMARY KEY AUTOINCREMENT, vinId INTEGER, texte TEXT)');
@@ -87,17 +90,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
              }
          })
 
-
-         .state('app.recherche', {
-             cache: false,
-             url: '/recherche',
-             views: {
-                 'menuContent': {
-                     templateUrl: 'templates/recherche.html',
-                     controller: 'RechercheCtrl'
-                 }
-             }
-         })
 
     .state('app.ajouter', {
         cache: false,

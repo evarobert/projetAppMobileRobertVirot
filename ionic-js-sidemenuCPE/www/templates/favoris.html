@@ -1,9 +1,16 @@
-﻿<ion-view view-title="Vins">
+﻿
+<ion-view view-title="Vins Favoris">
     <ion-content>
-        
-        <div ng-repeat="favori in favoris">
-            {{favori}}
-        </div>
+            <div ng-repeat="vin in listRecherche">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                       <h2>{{vin.nom}}</h2>
+                        <h3 content="text/html; charset=UTF-8" >{{vin.millesime}} : {{vin.couleur}}</h3>
+                        
+                    </div>
+                </div>
+                <button ion-button class="button button-small icon left ion-trash-a button-assertive" type="button" ng-click="supprFavori({{vin.id}})">Supprimer ce favori</button>
+            </div>
 
-    </ion-content>
+</ion-content>
 </ion-view>
